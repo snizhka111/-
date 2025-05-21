@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Galaxy Clicker</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    #game {
+      padding: 20px;
+    }
+
+    #planet {
+      width: 150px;
+      height: 150px;
+      margin: 30px auto;
+      background: radial-gradient(circle at 30% 30%, #ffcc00, #ff9900);
+      border-radius: 50%;
+      box-shadow: 0 0 30px 10px #ffcc00;
+      animation: pulse 2s infinite ease-in-out;
+      cursor: pointer;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 30px 10px #ffcc00; }
+      50% { transform: scale(1.1); box-shadow: 0 0 40px 15px #ffaa00; }
+      100% { transform: scale(1); box-shadow: 0 0 30px 10px #ffcc00; }
+    }
+
+    #upgradeBtn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #222;
+      color: #fff;
+      border: 2px solid #ffcc00;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #upgradeBtn:hover {
+      background-color: #ffcc00;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <div id="game">
+    <h1>Galaxy Clicker 🚀</h1>
+    <p>Зіркова енергія: <span id="energy">0</span> ✨</p>
+    <div id="planet"></div>
+    <button id="upgradeBtn">Покращити корабель (100 ✨)</button>
+  </div>
+
+  <script>
+    let energy = 0;
+    let multiplier = 1;
+
+    const energyDisplay = document.getElementById("energy");
+    const planet = document.getElementById("planet");
+    const upgradeBtn = document.getElementById("upgradeBtn");
+
+    planet.addEventListener("click", () => {
+      energy += multiplier;
+      updateDisplay();
+      createSparkle();
+    });
+
+    upgradeBtn.addEventListener("click", () => {
+      if (energy >= 100) {
+        energy -= 100;
+        multiplier++;
+        updateDisplay();
+        alert("🚀 Корабель покращено! Тепер ви отримуєте більше енергії.");
+      }
+    });
+
+    function updateDisplay() {
+      energyDisplay.textContent = energy;
+    }
+
+    function createSparkle() {
+      const sparkle = document.createElement("div");
+      sparkle.style.position = "absolute";
+      sparkle.style.left = `${planet.offsetLeft + 75 + (Math.random() * 40 - 20)}px`;
+      sparkle.style.top = `${planet.offsetTop + 75 + (Math.random() * 40 - 20)}px`;
+      sparkle.style.width = "10px";
+      sparkle.style.height = "10px";
+      sparkle.style.borderRadius = "50%";
+      sparkle.style.background = "#fff";
+      sparkle.style.opacity = "1";
+      sparkle.style.zIndex = "1000";
+      sparkle.style.pointerEvents = "none";
+      sparkle.style.transition = "all 1s ease-out";
+
+      document.body.appendChild(sparkle);
+
+      setTimeout(() => {
+        sparkle.style.transform = "translateY(-50px)";
+        sparkle.style.opacity = "0";
+      }, 10);
+
+      setTimeout(() => {
+        sparkle.remove();
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
